@@ -1,0 +1,24 @@
+.data
+tb: .asciiz "Nhap chuoi: "
+tb2: .asciiz "Chuoi la: "
+string: .space 40
+.text
+.globl main
+main:
+#Xuat tb
+li $v0,4
+la $a0,tb
+syscall
+#Nhap chuoi
+li $v0,8
+la $a0,string
+li $a1,40
+syscall
+#Xuat tb2
+li $v0,4
+la $a0,tb2
+syscall
+#Xuat string
+li $v0,4
+la $a0,string
+syscall

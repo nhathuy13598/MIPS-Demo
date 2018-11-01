@@ -1,0 +1,121 @@
+.data
+	tb1: .asciiz "nhap so a: "
+	tb2: .asciiz "nhap so b: "
+	menu: .asciiz "=======Menu=========\n1. Tong\n2. Hieu\n3. Tich\n4. Thuong\n5. Thoat\n==============\nChon: "
+	tb3: .asciiz "\nTong la: "
+	tb4: .asciiz "\nHieu la: "
+	tb5: .asciiz "\nTich la: "
+        tb6: .asciiz "\nThuong la:"
+	tb7: .asciiz "\nDu la:"
+	tb8: .asciiz "\nNhap sai gia tri chon."
+	a: .word 0
+	b: .word 0
+.text
+	.globl main
+main:
+	#Xuat tb1
+	li $v0,4
+	la $a0,tb1
+	syscall
+	#Nhap ki tu
+	li $v0,5
+	syscall
+	#luu vao a
+	sw $v0,a
+	#Xuat tb2
+	li $v0,4
+	la $a0,tb2
+	syscall
+	#Nhap ki tu
+	li $v0,5
+	syscall
+	#luu vao b
+	sw $v0,b
+	#luu a vao s0
+	lw $s0,a
+	#luu b vao s1
+	lw $s1,b
+xuatmenu:
+	#Xuat menu
+	li $v0,4
+	la $a0,menu
+	syscall
+	#Nhap gia tri chon
+	li $v0,5
+	syscall
+	#Luu chon vao $t2
+	move $t2,$v0
+	beq $t2,1,TinhTong
+	beq $t2,2,TinhHieu
+	beq $t2,3,TinhThuong
+	beq $t2,4,TinhTich
+	beq $t2,5,Thoat
+	j NhapSai
+TinhTong:
+	# a+b
+	add $t0,$s0,$s1
+	# xuat tb3
+	li $v0,4
+	la $a0,tb3
+	syscall
+	#xuat $t0
+	li $v0,1
+	move $a0,$t0
+	syscall
+	j xuatmenu
+TinhHieu:
+	# a-b
+	sub $t0,$s0,$s1
+	# xuat tb4
+	li $v0,4
+	la $a0,tb4
+	syscall
+	#xuat $t0
+	li $v0,1
+	move $a0,$t0
+	syscall
+	j xuatmenu
+TinhTich:
+	# a*b
+	mult $s0,$s1
+	mflo $t0
+	# xuat tb5
+	li $v0,4
+	la $a0,tb5
+	syscall
+	#xuat $t0
+	li $v0,1
+	move $a0,$t0
+	syscall
+	j xuatmenu
+TinhThuong:
+       # a/b
+	div $s0,$s1
+	mflo $t0
+	mfhi $t1
+	# xuat tb6
+	li $v0,4
+	la $a0,tb6
+	syscall
+	#xuat $t0
+	li $v0,1
+	move $a0,$t0
+	syscall
+	# xuat tb7
+	li $v0,4
+	la $a0,tb7
+	syscall
+	#xuat $t1
+	li $v0,1
+	move $a0,$t1
+	syscall
+	j xuatmenu
+NhapSai:
+	# xuat tb8
+	li $v0,4
+	la $a0,tb8
+	syscall
+	j xuatmenu
+Thoat:
+	li $v0,10
+	syscall

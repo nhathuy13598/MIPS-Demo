@@ -1,0 +1,49 @@
+.data
+	tb1: .asciiz "Nhap ki tu: "
+	tb2: .asciiz "\nKi tu lien truoc: "
+	tb3: .asciiz "\nKi tu lien sau: "
+	kitu: .word 1
+.text
+	.globl main
+main:
+	#xuat tb1
+	li $v0,4 
+	la $a0,tb1
+	syscall
+
+	#Nhap ki tu
+	li $v0,12
+	syscall
+
+	#luu vao bien kitu
+	sb $v0,kitu
+
+	#tinh toan
+	lb $t0,kitu
+	
+	#Tinh ki tu lien truoc
+	addi $t1,$t0,-1
+
+	#Tinh ki tu lien sau
+	addi $t2,$t0,1
+
+	#xuat tb2
+	li $v0,4 
+	la $a0,tb2
+	syscall
+
+	#xuat ki tu $t1
+	li $v0,11
+	move $a0,$t1
+	syscall
+
+	#xuat tb3
+	li $v0,4 
+	la $a0,tb3
+	syscall
+
+	#xuat ki tu $t2
+	li $v0,11
+	la $a0,$t2
+	syscall
+
